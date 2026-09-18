@@ -1,1 +1,613 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f2f2f7">
+<title>Everyday English</title>
 
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+  "SF Pro Text", Arial, sans-serif;
+  background: #f2f2f7;
+  color: #1c1c1e;
+}
+
+.app {
+  max-width: 520px;
+  margin: auto;
+  padding: 22px 18px 110px;
+}
+
+.header {
+  padding-top: env(safe-area-inset-top);
+  margin-bottom: 22px;
+}
+
+.small {
+  color: #8e8e93;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+h1 {
+  margin: 4px 0 5px;
+  font-size: 34px;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  color: #8e8e93;
+  font-size: 16px;
+}
+
+.progress-card,
+.card,
+.stat {
+  background: rgba(255,255,255,.92);
+  border-radius: 22px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.045);
+}
+
+.progress-card {
+  padding: 18px;
+  margin-bottom: 18px;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.progress-bg {
+  height: 9px;
+  background: #e5e5ea;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: #007aff;
+  border-radius: 20px;
+  transition: .4s;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.stat {
+  text-align: center;
+  padding: 14px 5px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 22px;
+}
+
+.stat span {
+  font-size: 12px;
+  color: #8e8e93;
+}
+
+.section-title {
+  font-size: 21px;
+  font-weight: 750;
+  margin: 25px 3px 12px;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+.category {
+  background: white;
+  border-radius: 20px;
+  padding: 18px;
+  min-height: 112px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,.04);
+}
+
+.category:active {
+  transform: scale(.97);
+}
+
+.icon {
+  font-size: 29px;
+  margin-bottom: 11px;
+}
+
+.category strong {
+  display: block;
+  font-size: 17px;
+}
+
+.category span {
+  color: #8e8e93;
+  font-size: 13px;
+}
+
+.study {
+  display: none;
+}
+
+.back {
+  color: #007aff;
+  font-size: 17px;
+  margin: 5px 0 20px;
+  cursor: pointer;
+}
+
+.card {
+  padding: 28px 22px;
+  min-height: 285px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.english {
+  font-size: 29px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.pronunciation {
+  color: #8e8e93;
+  margin-top: 12px;
+  font-size: 16px;
+}
+
+.translation {
+  font-size: 20px;
+  margin-top: 24px;
+  display: none;
+}
+
+.translation.show {
+  display: block;
+}
+
+button {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.main-btn {
+  width: 100%;
+  background: #007aff;
+  color: white;
+  border-radius: 17px;
+  padding: 16px;
+  font-weight: 700;
+  font-size: 17px;
+  margin-top: 14px;
+}
+
+.secondary {
+  background: white;
+  color: #007aff;
+}
+
+.answer-buttons {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.answer-buttons button {
+  border-radius: 17px;
+  padding: 15px 5px;
+  font-weight: 700;
+}
+
+.bad {
+  background: #ffe5e5;
+  color: #d70015;
+}
+
+.good {
+  background: #dcf7e6;
+  color: #248a3d;
+}
+
+.counter {
+  text-align: center;
+  color: #8e8e93;
+  margin: 14px;
+  font-size: 14px;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(249,249,249,.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top: .5px solid #d1d1d6;
+  padding: 9px 15px calc(9px + env(safe-area-inset-bottom));
+}
+
+.bottom-inner {
+  max-width: 520px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav {
+  color: #8e8e93;
+  font-size: 12px;
+  text-align: center;
+}
+
+.nav.active {
+  color: #007aff;
+}
+
+.nav div:first-child {
+  font-size: 23px;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #000;
+    color: #f2f2f7;
+  }
+
+  .progress-card,
+  .card,
+  .stat,
+  .category {
+    background: #1c1c1e;
+  }
+
+  .progress-bg {
+    background: #3a3a3c;
+  }
+
+  .bottom {
+    background: rgba(28,28,30,.9);
+    border-color: #38383a;
+  }
+
+  .secondary {
+    background: #1c1c1e;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div id="home">
+
+  <div class="header">
+    <div class="small">ТВОЙ АНГЛИЙСКИЙ • A1</div>
+    <h1>Everyday English</h1>
+    <div class="subtitle">Английский для обычной жизни</div>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <span>Сегодня</span>
+      <span id="percent">0%</span>
+    </div>
+
+    <div class="progress-bg">
+      <div class="progress" id="progress"></div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <strong id="learned">0</strong>
+      <span>изучено</span>
+    </div>
+
+    <div class="stat">
+      <strong>🔥 <span id="days">1</span></strong>
+      <span>дней подряд</span>
+    </div>
+
+    <div class="stat">
+      <strong id="total">0</strong>
+      <span>фраз</span>
+    </div>
+  </div>
+
+  <div class="section-title">Бытовые ситуации</div>
+
+  <div class="categories">
+
+    <div class="category" onclick="start('shop')">
+      <div class="icon">🛒</div>
+      <strong>Магазин</strong>
+      <span>Покупки и цены</span>
+    </div>
+
+    <div class="category" onclick="start('street')">
+      <div class="icon">🚶</div>
+      <strong>На улице</strong>
+      <span>Дорога и транспорт</span>
+    </div>
+
+    <div class="category" onclick="start('home')">
+      <div class="icon">🏠</div>
+      <strong>Дома</strong>
+      <span>Обычные дела</span>
+    </div>
+
+    <div class="category" onclick="start('talk')">
+      <div class="icon">💬</div>
+      <strong>Разговор</strong>
+      <span>Простое общение</span>
+    </div>
+
+    <div class="category" onclick="start('food')">
+      <div class="icon">🍽️</div>
+      <strong>Еда</strong>
+      <span>Кафе и продукты</span>
+    </div>
+
+    <div class="category" onclick="start('daily')">
+      <div class="icon">☀️</div>
+      <strong>Каждый день</strong>
+      <span>Повседневные фразы</span>
+    </div>
+
+  </div>
+</div>
+
+<div id="study" class="study">
+
+  <div class="back" onclick="goHome()">‹ Назад</div>
+
+  <div class="small" id="categoryName">МАГАЗИН</div>
+
+  <div class="counter" id="counter"></div>
+
+  <div class="card">
+
+    <div class="english" id="english"></div>
+
+    <div class="pronunciation" id="pronunciation"></div>
+
+    <div class="translation" id="translation"></div>
+
+  </div>
+
+  <button class="main-btn" id="showBtn" onclick="showTranslation()">
+    Показать перевод
+  </button>
+
+  <div class="answer-buttons" id="answers">
+    <button class="bad" onclick="answer(false)">
+      Ещё учить
+    </button>
+
+    <button class="good" onclick="answer(true)">
+      Знаю ✓
+    </button>
+  </div>
+
+</div>
+
+</div>
+
+<div class="bottom">
+  <div class="bottom-inner">
+
+    <div class="nav active" onclick="goHome()">
+      <div>⌂</div>
+      Главная
+    </div>
+
+    <div class="nav">
+      <div>◎</div>
+      Прогресс
+    </div>
+
+    <div class="nav">
+      <div>⚙︎</div>
+      Настройки
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+const lessons = {
+
+shop: [
+["How much is this?","хау мач из зис?","Сколько это стоит?"],
+["I would like this, please.","ай вуд лайк зис, плиз","Я бы хотел это, пожалуйста."],
+["Do you have milk?","ду ю хэв милк?","У вас есть молоко?"],
+["Where can I pay?","уэа кэн ай пэй?","Где я могу заплатить?"],
+["Can I pay by card?","кэн ай пэй бай кард?","Можно оплатить картой?"],
+["I need a bag, please.","ай нид э бэг, плиз","Мне нужен пакет, пожалуйста."],
+["That's all, thank you.","зэтс ол, сэнк ю","Это всё, спасибо."]
+],
+
+street: [
+["Where are you going?","уэа ар ю гоуинг?","Куда ты едешь?"],
+["I'm going home.","айм гоуинг хоум","Я еду домой."],
+["Where is the bus stop?","уэа из зэ бас стоп?","Где автобусная остановка?"],
+["Is it far from here?","из ит фар фром хиа?","Это далеко отсюда?"],
+["Turn left here.","тёрн лефт хиа","Поверни здесь налево."],
+["Turn right.","тёрн райт","Поверни направо."],
+["I missed the bus.","ай мист зэ бас","Я пропустил автобус."]
+],
+
+home: [
+["I'm at home.","айм эт хоум","Я дома."],
+["I'm cooking dinner.","айм кукинг динэ","Я готовлю ужин."],
+["I'm cleaning the house.","айм клининг зэ хаус","Я убираюсь дома."],
+["I'm tired.","айм тайэд","Я устал."],
+["I'm going to bed.","айм гоуинг ту бэд","Я иду спать."],
+["What are you doing?","уот ар ю дуинг?","Что ты делаешь?"],
+["I'm watching TV.","айм уотчинг тиви","Я смотрю телевизор."]
+],
+
+talk: [
+["How are you?","хау ар ю?","Как ты?"],
+["I'm fine, thanks.","айм файн, сэнкс","Я в порядке, спасибо."],
+["What's your name?","уотс ё нэйм?","Как тебя зовут?"],
+["My name is Dmitry.","май нэйм из Дмитрий","Меня зовут Дмитрий."],
+["Where are you from?","уэа ар ю фром?","Откуда ты?"],
+["I don't understand.","ай доунт андэстэнд","Я не понимаю."],
+["Can you say that again?","кэн ю сэй зэт эгэн?","Можешь повторить?"],
+["Please speak slowly.","плиз спик слоули","Пожалуйста, говорите медленнее."]
+],
+
+food: [
+["I'm hungry.","айм хангри","Я голоден."],
+["I'd like some coffee.","айд лайк сам кофи","Я бы хотел кофе."],
+["Can I have the menu?","кэн ай хэв зэ меню?","Можно меню?"],
+["I would like some water.","ай вуд лайк сам уотэ","Я бы хотел воды."],
+["This is very good.","зис из вэри гуд","Это очень вкусно."],
+["Can I have the bill, please?","кэн ай хэв зэ бил, плиз?","Можно счёт, пожалуйста?"]
+],
+
+daily: [
+["What time is it?","уот тайм из ит?","Который час?"],
+["I'm going to work.","айм гоуинг ту уорк","Я еду на работу."],
+["I went to the store yesterday.","ай уэнт ту зэ стор естэдэй","Вчера я ходил в магазин."],
+["What are you doing today?","уот ар ю дуинг тудэй?","Что ты сегодня делаешь?"],
+["I'll call you later.","айл кол ю лэйтэ","Я позвоню тебе позже."],
+["See you tomorrow.","си ю тумороу","Увидимся завтра."],
+["I don't know.","ай доунт ноу","Я не знаю."],
+["Wait a minute.","уэйт э минут","Подожди минуту."]
+]
+
+};
+
+let current = [];
+let index = 0;
+let learned = Number(localStorage.getItem("learned") || 0);
+
+function countTotal() {
+  let n = 0;
+  Object.values(lessons).forEach(x => n += x.length);
+  return n;
+}
+
+document.getElementById("total").innerText = countTotal();
+
+function updateProgress() {
+
+  document.getElementById("learned").innerText = learned;
+
+  let percent = Math.min(
+    100,
+    Math.round((learned / countTotal()) * 100)
+  );
+
+  document.getElementById("percent").innerText = percent + "%";
+  document.getElementById("progress").style.width = percent + "%";
+}
+
+updateProgress();
+
+const names = {
+  shop:"МАГАЗИН",
+  street:"НА УЛИЦЕ",
+  home:"ДОМА",
+  talk:"РАЗГОВОР",
+  food:"ЕДА",
+  daily:"КАЖДЫЙ ДЕНЬ"
+};
+
+function start(category) {
+
+  current = lessons[category];
+  index = 0;
+
+  document.getElementById("categoryName").innerText = names[category];
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("study").style.display = "block";
+
+  render();
+}
+
+function render() {
+
+  const phrase = current[index];
+
+  document.getElementById("english").innerText = phrase[0];
+  document.getElementById("pronunciation").innerText = phrase[1];
+  document.getElementById("translation").innerText = phrase[2];
+
+  document.getElementById("translation").classList.remove("show");
+
+  document.getElementById("showBtn").style.display = "block";
+  document.getElementById("answers").style.display = "none";
+
+  document.getElementById("counter").innerText =
+    (index + 1) + " из " + current.length;
+}
+
+function showTranslation() {
+
+  document.getElementById("translation").classList.add("show");
+
+  document.getElementById("showBtn").style.display = "none";
+  document.getElementById("answers").style.display = "grid";
+}
+
+function answer(know) {
+
+  if (know) {
+    learned++;
+    localStorage.setItem("learned", learned);
+    updateProgress();
+  }
+
+  index++;
+
+  if (index >= current.length) {
+    index = 0;
+  }
+
+  render();
+}
+
+function goHome() {
+
+  document.getElementById("study").style.display = "none";
+  document.getElementById("home").style.display = "block";
+
+  updateProgress();
+}
+
+</script>
+
+</body>
+</html>
